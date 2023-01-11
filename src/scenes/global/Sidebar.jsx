@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {ProSidebar, Menu, MenuItem} from "react-pro-sidebar";
 import {Box, IconButton, Typography, useTheme, Button} from "@mui/material";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import {tokens} from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -51,6 +51,8 @@ const Sidebar = () => {
 
     const isAuth = Boolean(useSelector((state) => state.token))
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
 
     const userName = useSelector((state) => state.name)
     const userEmail = useSelector((state) => state.email)
@@ -83,6 +85,7 @@ const Sidebar = () => {
         dispatch(
             logout()
         )
+        navigate('/')
     }
 
 

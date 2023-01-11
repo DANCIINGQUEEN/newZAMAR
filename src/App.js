@@ -22,7 +22,7 @@ import Sheet from "./sheet/Sheet";
 
 function App() {
     const [theme, colorMode] = useMode();
-    const [isSidebar, setIsSidebar] = useState(true);
+    const [isSidebar, setIsSidebar] = useState(false);
 
     const isAuth = Boolean(useSelector((state) => state.token))
     console.log(isAuth)

@@ -5,13 +5,34 @@ import {Box, Button, TextField, useTheme} from "@mui/material";
 
 import Header from "../components/Header";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+
 import {tokens} from "../theme";
 
 const SortableItem = SortableElement(({value, index, onDelete}) => {
+    const theme = useTheme();
+
+    const colors = tokens(theme.palette.mode);
+
     return (
         <div>
-            <img src={value} alt={`uploaded photo ${index}`}/>
-            <button onClick={onDelete}>Delete</button>
+            <img width="100%" height="100%" src={value} alt={`uploaded photo ${index}`}/>
+            <span>
+
+            <Button
+                onClick={onDelete}
+                sx={{
+                    backgroundColor: colors.greenAccent[700],
+                    color: colors.grey[100],
+                    fontSize: "15px",
+                    fontWeight: "bold",
+                    padding: "1px 1px",
+                    left: '5px',
+                    bottom: '43px'
+                }}>
+                Delete
+            </Button>
+            </span>
         </div>
     );
 });
@@ -25,6 +46,7 @@ const SortableList = SortableContainer(({items, onDelete}) => {
         </div>
     );
 });
+
 
 function Sheet() {
     const theme = useTheme();
@@ -45,50 +67,58 @@ function Sheet() {
         setPhotos(photos.filter((photo, i) => i !== index));
     };
 
+
     return (
         <Box m="20px">
             <Header
                 title="SHEETS"
                 subtitle="Upload sheet music and edit order"
             />
-            <Box>
-                <div {...getRootProps()}>
-                    <input {...getInputProps()} />
-                    {/*<p>Drag and drop photos here, or click to select photos</p>*/}
-                    <Button
-                        sx={{
-                            backgroundColor: colors.blueAccent[700],
-                            color: colors.grey[100],
-                            fontSize: "14px",
-                            fontWeight: "bold",
-                            padding: "10px 20px",
-                        }}
-                    >
-                        <DownloadOutlinedIcon sx={{mr: "10px"}}/>
-                        Drag and drop photos here
-                    </Button>
-                </div>
-            </Box>
             <Box
-                display="grid"
-                gridTemplateColumns="repeat(12, 1fr)"
-                gridAutoRows="140px"
-                gap="20px"
+                sx={{
+                    display: 'flex',
+                    height: '85vh',
+                    width: '92vw',
+                    backgroundColor: colors.primary[400],
+
+                }}
             >
-                <Box
-                    gridColumn="span 3"
-                    backgroundColor={colors.primary[400]}
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
+                <Box flex="3"
+                     display="flex"
+                     flexDirection="column"
+                     height="100%"
+                     border="1px solid yellow"
                 >
-                <div>
+                    <Box display='flex' alignItems='center' justifyContent='center' flex='1'
+                         {...getRootProps()}>
+                        <div>
+                            <input {...getInputProps()}  />
+                            {/*<p>Drag and drop photos here, or click to select photos</p>*/}
+                            <Button
+                                sx={{
+                                    backgroundColor: colors.blueAccent[700],
+                                    color: colors.grey[100],
+                                    fontSize: "24px",
+                                    fontWeight: "bold",
+                                    padding: "30px 50px",
+                                }}
+                            >
+                                <DownloadOutlinedIcon sx={{mr: "10px"}}/>
+                                Drag and drop photos here
+                            </Button>
+                        </div>
+                    </Box>
+                    <Box flex='5' border="1px solid yellow"></Box>
+                </Box>
+                <Box flex="1" height='100%' display='flex' flexWrap='wrap' minWidth='300px' maxWidth='300px'
+                     border="1px solid yellow" overflow='auto'>
                     {photos.length > 0 && (
                         <SortableList items={photos} onSortEnd={onSortEnd} onDelete={handleDelete}/>
                     )}
-                </div>
                 </Box>
+
             </Box>
+
         </Box>
     );
 }
